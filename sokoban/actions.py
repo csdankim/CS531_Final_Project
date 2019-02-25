@@ -95,9 +95,3 @@ def move_agent(board,dir):
             # we hit a wall, a box, or a goal that has a box on it, so we cannot move this specific box!
             print("The agent is pushing a box into another box or a wall")
             return False
-
-
-
-
-
-
