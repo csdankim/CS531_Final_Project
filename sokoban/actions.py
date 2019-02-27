@@ -1,4 +1,4 @@
-def move_agent(board,dir):
+def move_agent(board, direction):
     result_square = ""
     for row in range(0, len(board)):
         for column in range(0, len(board[row])):
@@ -9,28 +9,27 @@ def move_agent(board,dir):
                     is_goal = True
                 agent_row = row
                 agent_column = column
-                if dir == "L":
+                if direction == "L":
                     result_square = board[row][column-1]
                     target_row = row
                     target_column = column - 1
-                elif dir == "R":
+                elif direction == "R":
                     result_square = board[row][column+1]
                     target_row = row
                     target_column = column + 1
-                elif dir == "U":
+                elif direction == "U":
                     result_square = board[row-1][column]
                     target_row = row - 1
                     target_column = column
-                elif dir == "D":
+                elif direction == "D":
                     result_square = board[row+1][column]
                     target_row = row + 1
                     target_column = column
                 else:
-                    raise ValueError("Bad direction!")
+                    raise ValueError("Bad directionection!")
     # result_square has what is there now!
     if result_square == "-1":
         # there is a wall, we cannot move!
-        print("The agent is at a wall")
         return False
     elif result_square == "0":
         board[target_row][target_column] = "1"
@@ -52,19 +51,19 @@ def move_agent(board,dir):
         else:
             is_box_goal = True
         # we also have to check if we can move the box or not ... ugh
-        if dir == "L":
+        if direction == "L":
             box_result_square = board[agent_row][agent_column-2]
             box_target_row = agent_row
             box_target_column = agent_column - 2
-        elif dir == "R":
+        elif direction == "R":
             box_result_square = board[agent_row][agent_column+2]
             box_target_row = agent_row
             box_target_column = agent_column + 2
-        elif dir == "U":
+        elif direction == "U":
             box_result_square = board[agent_row-2][agent_column]
             box_target_row = agent_row - 2
             box_target_column = agent_column
-        elif dir == "D":
+        elif direction == "D":
             box_result_square = board[agent_row+2][agent_column]
             box_target_row = agent_row + 2
             box_target_column = agent_column
@@ -93,5 +92,4 @@ def move_agent(board,dir):
             return board
         elif box_result_square == "-1" or box_result_square == "2" or box_result_square == "3":
             # we hit a wall, a box, or a goal that has a box on it, so we cannot move this specific box!
-            print("The agent is pushing a box into another box or a wall")
             return False
