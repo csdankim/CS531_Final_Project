@@ -13,6 +13,18 @@ def gen_default_board():
             board.append(line.strip().split(","))
     return board
 
+def check_goal(sokoban_board):
+    for row in range(0,len(sokoban_board)):
+        for column in range(0,len(sokoban_board[row])):
+            # in these cases, we have an agent on a goal or a goal without
+            # anything on it, indicating a failure
+            # the goal state is when there are no goal squares without a box
+            if sokoban_board[row][column] == "1":
+                return False
+            if sokoban_board[row][column] == "0":
+                return False
+    return True
+
 
 def draw_board(sokoban_board):
     for i in range(0,len(sokoban_board)):
@@ -34,4 +46,3 @@ def gen_frontier(frontier_board):
             current_frontier.append(MOVES[i])
             current_frontier.append(result)
     return current_frontier
-
