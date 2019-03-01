@@ -5,7 +5,6 @@ import heuristic
 import board
 
 def ida_run(evaluation_board,MAX_ITERATIONS):
-    print("Prepare to run IDA*")
     ida_threshold = heuristic.manhattan_distance_node(evaluation_board)
     while True:
         search_result = ida_search_function(evaluation_board,0,ida_threshold,MAX_ITERATIONS)
