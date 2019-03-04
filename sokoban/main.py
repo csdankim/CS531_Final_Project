@@ -2,6 +2,7 @@ import board
 import actions
 import heuristic
 import ida
+import rbfs
 
 new_board = board.gen_default_board()
 board.draw_board(new_board)
@@ -11,3 +12,5 @@ print("\n")
 # 7 moves at best to reach it
 print("Running IDA* with Manhattan Distance heuristic")
 result = ida.ida_run(new_board, 7)
+print("Running RBFS with Manhattan Distance heurisitc")
+result = rbfs.rbfs_run(new_board)
