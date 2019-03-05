@@ -35,7 +35,9 @@ def rbfs_search_function(f_node, f_limit, depth):
         return "FAILURE", infinity
     successors = []
     for i in range(1, len(frontier), 2):
-        successors.append(F_node(max((depth + heuristic.manhattan_distance_node(frontier[i])), f_node.f), frontier[i], depth))
+        # successors.append(F_node(max((depth + heuristic.manhattan_distance_node(frontier[i])), f_node.f), frontier[i], depth))
+        successors.append(
+            F_node(max((depth + heuristic.hungarian_method(frontier[i])), f_node.f), frontier[i], depth))
     while True:
         successors.sort()
         best_node = successors[0]

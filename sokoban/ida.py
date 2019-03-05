@@ -13,7 +13,8 @@ def ida_run(evaluation_board,MAX_ITERATIONS):
         ida_threshold = search_result
 
 def ida_search_function(node,g,threshold,MAX_ITERATIONS):
-    f_value = g + heuristic.manhattan_distance_node(node)
+    # f_value = g + heuristic.manhattan_distance_node(node)
+    f_value = g + heuristic.hungarian_method(node)
     if (f_value >threshold):
         return f_value
     if (board.check_goal(node)):
