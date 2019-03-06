@@ -11,6 +11,10 @@ print("\n")
 # After some manual testing I found that it takes
 # 7 moves at best to reach it
 print("Running IDA* with Manhattan Distance heuristic")
-ida.ida_run(new_board, 7)
+ida.ida_run(new_board, 7,"MD")
+print("Running IDA* with Hungarian heuristic")
+ida.ida_run(new_board, 7,"HU")
 print("Running RBFS with Manhattan Distance heurisitc")
-rbfs.rbfs_run(new_board)
+rbfs.rbfs_run(new_board,"MD")
+print("Running RBFS with Hungarian heurisitc")
+rbfs.rbfs_run(new_board,"HU")

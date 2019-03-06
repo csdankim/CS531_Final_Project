@@ -1,8 +1,13 @@
 import board
+from hungarian import *
+import math
 
 # the "frontier" function generates distances for all frontier
 # nodes. The "node" function just gets the current manhattan distance
 # for the currently selected node
+
+infinity = math.inf
+
 
 def manhattan_distance_frontier(frontier):
     total_md = []
@@ -60,3 +65,28 @@ def manhattan_distance_node(node):
 
 def displaced_distance(frontier):
     pass
+
+
+def hungarian_method(node):
+    frontier_goals = []
+    frontier_boxes = []
+    hungarian_table = []
+    for row in range(0, len(node)):
+        for column in range(0, len(node[row])):
+            if node[row][column] == '2' or node[row][column] == '3':
+                frontier_boxes.append(row)
+                frontier_boxes.append(column)
+            if node[row][column] == '0' or node[row][column] == '1' or node[row][column] == '2':
+                frontier_goals.append(row)
+                frontier_goals.append(column)
+    for box_idx in range(0, len(frontier_boxes), 2):
+        temp = []
+        for goal_idx in range(0, len(frontier_goals), 2):
+            distance_x = abs(int(frontier_boxes[int(box_idx)]) - int(frontier_goals[int(goal_idx)]))
+            distance_y = abs(int(frontier_boxes[int(box_idx)+1]) - int(frontier_goals[int(goal_idx)+1]))
+            temp.append(distance_x + distance_y)
+        hungarian_table.append(temp)
+    #print(hungarian_table)
+    hungarian = Hungarian()
+    hungarian.calculate(hungarian_table)
+    return hungarian.get_total_potential()
