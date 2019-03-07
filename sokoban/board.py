@@ -6,8 +6,8 @@ import actions
 MOVES = ["U", "D", "L", "R"]
 
 
-def gen_default_board():
-    with open('boards.txt') as board_file:
+def gen_default_board(board_file_selection):
+    with open(board_file_selection) as board_file:
         board = []
         for line in board_file:
             board.append(line.strip().split(","))

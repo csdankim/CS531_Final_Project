@@ -1,7 +1,6 @@
 import board
 import heuristic
 import math
-import sys
 
 infinity = math.inf
 
