@@ -63,9 +63,6 @@ def manhattan_distance_node(node):
     # after this loop, we have the sum of the best distances
     return frontier_md
 
-def displaced_distance(frontier):
-    pass
-
 
 def hungarian_method(node):
     frontier_goals = []
