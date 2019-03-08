@@ -3,6 +3,7 @@ import actions
 import heuristic
 import ida
 import rbfs
+import mcts
 
 import argparse
 
@@ -30,3 +31,6 @@ rbfs.rbfs_run(new_board,"MD")
 print("Running RBFS with Hungarian heurisitc")
 new_board = board.gen_default_board(args.map_choice)
 rbfs.rbfs_run(new_board,"HU")
+print("Running MCTS")
+new_board = board.gen_default_board(args.map_choice)
+mcts.UCT(new_board, 1000)
