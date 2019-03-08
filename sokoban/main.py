@@ -1,12 +1,10 @@
 import board
-import actions
-import heuristic
 import ida
 import rbfs
 import mcts
 
 import argparse
-
+import sys
 
 parser = argparse.ArgumentParser(description='Solve Sobokan puzzles')
 parser.add_argument("-m", "--map",
@@ -17,8 +15,6 @@ parser.add_argument("-m", "--map",
 
 args = parser.parse_args()
 new_board = board.gen_default_board(args.map_choice)
-board.draw_board(new_board)
-print("\n")
 
 print("Running IDA* with Manhattan Distance heuristic")
 ida.ida_run(new_board,"MD")
@@ -33,4 +29,4 @@ new_board = board.gen_default_board(args.map_choice)
 rbfs.rbfs_run(new_board,"HU")
 print("Running MCTS")
 new_board = board.gen_default_board(args.map_choice)
-mcts.UCT(new_board, 1000)
+mcts.run_mcts(new_board)
