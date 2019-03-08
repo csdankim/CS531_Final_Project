@@ -41,7 +41,7 @@ def move_agent(board, direction):
     elif result_square == "5":
         board[target_row][target_column] = "4"
         if is_goal:
-            board[agent_row][agent_column] == "0"
+            board[agent_row][agent_column] = "0"
         else:
             board[agent_row][agent_column] = "5"
         return board
