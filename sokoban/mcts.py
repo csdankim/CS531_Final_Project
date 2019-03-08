@@ -1,6 +1,7 @@
 import board
 import heuristic
 import math
+import actions
 import copy
 import random
 
@@ -26,6 +27,7 @@ class MCTS_node:
         for i in range(1, len(self.frontier), 2):
             unsorted.append(self.frontier[i])
         s = sorted(unsorted, key = lambda c: c.wins/c.visits + sqrt(2*log(self.visits)/c.visits))[-1]
+        return s
 
     def add_child(self,move):
         child = MCTS_node(parent=self, move=move)
@@ -48,3 +50,14 @@ def UCT(rootstate, itermax):
         node = root_node
         curr_state = copy.deepcopy(rootstate)
 
+        while node.untried_moves == [] and node.children!=[]:
+            node = node.select_child()
+            
+        if node.untried_moves != []:
+            m = random.choice(node.untried_moves)
+            node = node.add_child(m, curr_state)
+
+        while curr_state.getMoves() != []:
+
+        while node != None:
+            node = node.parent
