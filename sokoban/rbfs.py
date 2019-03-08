@@ -1,7 +1,6 @@
 import board
 import heuristic
 import math
-import sys
 
 infinity = math.inf
 
@@ -19,13 +18,13 @@ class F_node:
         return str(self.f)
 
 
-def rbfs_run(evaluation_board):
+def rbfs_run(evaluation_board,method):
     # reflects the layout of the RBFS evaluations
     initial_board = F_node(0, evaluation_board, 0)
-    rbfs_search_function(initial_board, infinity, 0)
+    rbfs_search_function(initial_board, infinity, 0, method)
 
 
-def rbfs_search_function(f_node, f_limit, depth):
+def rbfs_search_function(f_node, f_limit, depth, method):
     if board.check_goal(f_node.n):
         print("Goal Achieved:")
         board.draw_board(f_node.n)
@@ -35,7 +34,10 @@ def rbfs_search_function(f_node, f_limit, depth):
         return "FAILURE", infinity
     successors = []
     for i in range(1, len(frontier), 2):
-        successors.append(F_node(max((depth + heuristic.manhattan_distance_node(frontier[i])), f_node.f), frontier[i], depth))
+        if method == "MD":
+            successors.append(F_node(max((depth + heuristic.manhattan_distance_node(frontier[i])), f_node.f), frontier[i], depth))
+        else:
+            successors.append(F_node(max((depth + heuristic.hungarian_method(frontier[i])), f_node.f), frontier[i], depth))
     while True:
         successors.sort()
         best_node = successors[0]
@@ -45,6 +47,6 @@ def rbfs_search_function(f_node, f_limit, depth):
             alternative = successors[0]
         else:
             alternative = successors[1]
-        result, best_node.f = rbfs_search_function(best_node, min(f_limit, alternative.f),depth+1)
+        result, best_node.f = rbfs_search_function(best_node, min(f_limit, alternative.f),depth+1,method)
         if result != "FAILURE":
             return result, best_node.f
