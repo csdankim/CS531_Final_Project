@@ -2,6 +2,7 @@ def move_agent(board, direction):
     result_square = ""
     for row in range(0, len(board)):
         for column in range(0, len(board[row])):
+            # our agent could be in an empty square (4) or on a goal (1)
             if board[row][column] == "4" or board[row][column] == "1":
                 if board[row][column] == "4":
                     is_goal = False
@@ -26,13 +27,15 @@ def move_agent(board, direction):
                     target_row = row + 1
                     target_column = column
                 else:
-                    raise ValueError("Bad directionection!")
+                    raise ValueError("Bad direction!")
     # result_square has what is there now!
     if result_square == "-1":
         # there is a wall, we cannot move!
         return False
+    # we are moving the agent to the goal
     elif result_square == "0":
         board[target_row][target_column] = "1"
+        # is the agent leaving a goal?
         if is_goal:
             board[agent_row][agent_column] = "0"
         else:
@@ -41,7 +44,7 @@ def move_agent(board, direction):
     elif result_square == "5":
         board[target_row][target_column] = "4"
         if is_goal:
-            board[agent_row][agent_column] == "0"
+            board[agent_row][agent_column] = "0"
         else:
             board[agent_row][agent_column] = "5"
         return board

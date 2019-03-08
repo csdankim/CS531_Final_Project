@@ -10,8 +10,9 @@ import argparse
 parser = argparse.ArgumentParser(description='Solve Sobokan puzzles')
 parser.add_argument("-m", "--map",
                     dest="map_choice",
-                    default="trivial_board.txt",
+                    default="boards/trivial_board.txt",
                     help="Choose a map file (default: trivial_board.txt)")
+
 
 args = parser.parse_args()
 new_board = board.gen_default_board(args.map_choice)

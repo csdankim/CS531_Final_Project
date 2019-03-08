@@ -46,3 +46,27 @@ def gen_frontier(frontier_board):
             current_frontier.append(MOVES[i])
             current_frontier.append(result)
     return current_frontier
+
+
+# for MCTS, find out if our board is in a loss state:
+# a loss is when we have a box in a corner, which means it cannot be moved
+# so we cannot recover the box, and our current state is unsolvable
+def check_loss(board):
+    for row in range(0, len(board)):
+        for column in range(0, len(board[row])):
+            if board[row][column] == "3":
+                # we have a box, let's see if it is permanently stuck
+                if board[row][column-1] == "-1" and board[row+1][column] == "-1":
+                    # corner blocking from left and bottom
+                    return True
+                elif board[row][column-1] == "-1" and board[row-1][column] == "-1":
+                    # corner blocking from left and above
+                    return True
+                elif board[row-1][column] == "-1" and board[row][column+1] == "-1":
+                    # corner blocking from right and above
+                    return True
+                elif board[row+1][column] == "-1" and board[row][column+1] == "-1":
+                    # corner blocking from right and below
+                    return True
+
+    return False
