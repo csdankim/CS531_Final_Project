@@ -2,10 +2,6 @@ import board
 from hungarian import *
 import math
 
-# the "frontier" function generates distances for all frontier
-# nodes. The "node" function just gets the current manhattan distance
-# for the currently selected node
-
 infinity = math.inf
 
 
@@ -37,6 +33,7 @@ def manhattan_distance_frontier(frontier):
             # after this loop, we have the sum of the best distances
             total_md.append(frontier_md)
     return total_md
+
 
 def manhattan_distance_node(node):
     curr_frontier_boxes = []
