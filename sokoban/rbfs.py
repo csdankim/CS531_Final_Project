@@ -4,6 +4,8 @@ import math
 
 infinity = math.inf
 
+rbfs_md_step = 0
+rbfs_hu_step = 0
 
 class F_node:
     def __init__(self,f_value,node,cost):
@@ -25,8 +27,14 @@ def rbfs_run(evaluation_board,method):
 
 
 def rbfs_search_function(f_node, f_limit, depth, method):
+    global rbfs_md_step
+    global rbfs_hu_step
     if board.check_goal(f_node.n):
         print("Goal Achieved:")
+        if method == "MD":
+            print("Steps: {}".format(rbfs_md_step))
+        else:
+            print("Steps: {}".format(rbfs_hu_step))
         board.draw_board(f_node.n)
         return "SUCCESS", f_node.f
     frontier = board.gen_frontier(f_node.n)
@@ -35,8 +43,10 @@ def rbfs_search_function(f_node, f_limit, depth, method):
     successors = []
     for i in range(1, len(frontier), 2):
         if method == "MD":
+            rbfs_md_step += 1
             successors.append(F_node(max((depth + heuristic.manhattan_distance_node(frontier[i])), f_node.f), frontier[i], depth))
         else:
+            rbfs_hu_step += 1
             successors.append(F_node(max((depth + heuristic.hungarian_method(frontier[i])), f_node.f), frontier[i], depth))
     while True:
         successors.sort()

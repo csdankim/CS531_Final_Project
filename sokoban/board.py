@@ -2,7 +2,6 @@ import copy
 
 import actions
 
-
 MOVES = ["U", "D", "L", "R"]
 
 
@@ -25,7 +24,6 @@ def check_goal(sokoban_board):
                 return False
     return True
 
-
 def draw_board(sokoban_board):
     for i in range(0,len(sokoban_board)):
         print(sokoban_board[i])
@@ -41,7 +39,9 @@ def gen_frontier(frontier_board):
     current_frontier = []
     for i in range(0, len(MOVES)):
         board_frontier = copy.deepcopy(frontier_board)
-        result = actions.move_agent(board_frontier, MOVES[i])
+        result = []
+        if board_frontier != True and board_frontier != False:
+            result = actions.move_agent(board_frontier, MOVES[i])
         if result:
             current_frontier.append(MOVES[i])
             current_frontier.append(result)
@@ -56,17 +56,38 @@ def check_loss(board):
         for column in range(0, len(board[row])):
             if board[row][column] == "3":
                 # we have a box, let's see if it is permanently stuck
-                if board[row][column-1] == "-1" and board[row+1][column] == "-1":
+                # we check simple deadlock
+                if board[row+1][column] == "-1" and board[row][column-1] == "-1":
+                    return True
+                if board[row+1][column] == "-1" and board[row][column+1] == "-1":
+                    return True
+                if board[row-1][column] == "-1" and board[row][column-1] == "-1":
+                    return True
+                if board[row-1][column] == "-1" and board[row][column+1] == "-1":
+                    return True
+                '''if board[row][column-1] == "-1" and board[row+1][column] == "-1":
                     # corner blocking from left and bottom
                     return True
-                elif board[row][column-1] == "-1" and board[row-1][column] == "-1":
+                if board[row][column-1] == "-1" and board[row-1][column] == "-1":
                     # corner blocking from left and above
                     return True
-                elif board[row-1][column] == "-1" and board[row][column+1] == "-1":
+                if board[row-1][column] == "-1" and board[row][column+1] == "-1":
                     # corner blocking from right and above
                     return True
-                elif board[row+1][column] == "-1" and board[row][column+1] == "-1":
+                if board[row+1][column] == "-1" and board[row][column+1] == "-1":
                     # corner blocking from right and below
-                    return True
+                    return True'''
+    return False
 
+# we check freeze deadlock
+def freeze_deadlock(board):
+    for row in range(0, len(board)):
+        for column in range(0, len(board[row])):
+            if board[row][column] == "3":
+                if board[row][column+1] == "3" and ((board[row-1][column] == "-1" or "2") or (board[row+1][column] == "-1" or "2")):
+                    if board[row-1][column+1] == "-1" or board[row+1][column+1] == "-1":
+                        return True
+                if board[row+1][column] == "3" and ((board[row][column-1] == "-1" or "2") or (board[row][column+1] == "-1" or "2")):
+                    if board[row+1][column-1] == "-1" or board[row+1][column+1] == "-1":
+                        return True
     return False
