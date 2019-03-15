@@ -47,7 +47,6 @@ def UCT(rootstate, itermax):
 
     for i in range(itermax):
         node = root_node
-        print(i)
         # BUG: it always resets the whole state, which means a child action way down the line
         # is being applied to the VERY FIRST state, which can be an invalid move
         # I think we need a complete reset! We must make sure the curr_state has the original
@@ -65,14 +64,16 @@ def UCT(rootstate, itermax):
             curr_state.current_board = node.current_board
 
         # expand
+        expansion_state = copy.deepcopy(curr_state)
         if node.untried_moves != []:
             move = random.choice(node.untried_moves)
-            curr_state.current_board = actions.move_agent(curr_state.current_board, move)
-            node = node.add_child(move, curr_state.current_board)
+            expansion_state.current_board = actions.move_agent(expansion_state.current_board,move)
+            node = node.add_child(move, expansion_state.current_board)
 
         state_calculation = copy.deepcopy(curr_state)
         # autobots, roll out
         while not (board.check_loss(state_calculation.current_board) or board.check_goal(state_calculation.current_board)):
+            chosen_move = random.choice(state_calculation.getMoves(state_calculation.current_board))
             state_calculation.current_board = actions.move_agent(
                 state_calculation.current_board,
                 random.choice(state_calculation.getMoves(state_calculation.current_board)))
@@ -103,4 +104,5 @@ def run_mcts(sobokan_board):
         best_move = UCT(rootstate=sobokan_board, itermax=100)
         sobokan_board = actions.move_agent(sobokan_board, best_move.move)
         board.draw_board(sobokan_board)
+        print("This is the next best move")
     print("Game over!")
