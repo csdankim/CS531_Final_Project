@@ -58,7 +58,6 @@ def UCT(rootstate, itermax, simple_dead_pos):
 
     for i in range(itermax):
         node = root_node
-        #print(i)
         # BUG: it always resets the whole state, which means a child action way down the line
         # is being applied to the VERY FIRST state, which can be an invalid move
         # I think we need a complete reset! We must make sure the curr_state has the original
@@ -104,6 +103,21 @@ def UCT(rootstate, itermax, simple_dead_pos):
                 state_calculation.current_board = actions.move_agent(
                     state_calculation.current_board,
                     random_child)
+                
+        # new unbugged expansion
+        expansion_state = copy.deepcopy(curr_state)
+        if node.untried_moves != []:
+            move = random.choice(node.untried_moves)
+            expansion_state.current_board = actions.move_agent(expansion_state.current_board,move)
+            node = node.add_child(move, expansion_state.current_board)
+
+        state_calculation = copy.deepcopy(curr_state)
+        # autobots, roll out
+        while not (board.check_loss(state_calculation.current_board) or board.check_goal(state_calculation.current_board)):
+            chosen_move = random.choice(state_calculation.getMoves(state_calculation.current_board))
+            state_calculation.current_board = actions.move_agent(
+                state_calculation.current_board,
+                random.choice(state_calculation.getMoves(state_calculation.current_board)))
 
         # backpropagate
         #print(node)
@@ -137,6 +151,7 @@ def run_mcts(sokoban_board):
         frontier = board.gen_frontier(sokoban_board)
         for i in range(0, len(frontier), 2):
             the_moves.append(frontier[i])
+
         UCT(rootstate=sokoban_board, itermax=100, simple_dead_pos=simple_dead_position)
         #best_move = UCT(rootstate=sokoban_board, itermax=1000000, simple_dead_pos=simple_dead_position)
         #print(best_move)
