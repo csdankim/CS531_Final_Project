@@ -25,10 +25,10 @@ class MCTS_node:
         return str(self.ratio_string)
 
     def select_child(self):
-        if self.parent == None:
-            s = sorted(self.children, key=lambda c: c.wins/c.visits + sqrt(2*log(self.visits)/c.visits) + sqrt((c.ressq - c.visits*(c.wins/c.visits)**2 + 10000.)/c.visits))[-1]
-        else:
-            s = sorted(self.children, key=lambda c: c.wins/c.visits + sqrt(2*log(self.parent.visits)/c.visits) + sqrt((c.ressq - c.visits*(c.wins/c.visits)**2 + 10000.)/c.visits))[-1]
+        # if self.parent == None:
+        s = sorted(self.children, key=lambda c: c.wins/c.visits + sqrt(2*log(self.visits)/c.visits) + sqrt((c.ressq - c.visits*(c.wins/c.visits)**2 + 10000.)/c.visits))[-1]
+        # else:
+        #     s = sorted(self.children, key=lambda c: c.wins/c.visits + sqrt(2*log(self.parent.visits)/c.visits) + sqrt((c.ressq - c.visits*(c.wins/c.visits)**2 + 10000.)/c.visits))[-1]
         return s
 
     def add_child(self, move, state):
@@ -103,7 +103,7 @@ def UCT(rootstate, itermax, simple_dead_pos):
                 state_calculation.current_board = actions.move_agent(
                     state_calculation.current_board,
                     random_child)
-                
+
         # new unbugged expansion
         expansion_state = copy.deepcopy(curr_state)
         if node.untried_moves != []:
@@ -152,16 +152,16 @@ def run_mcts(sokoban_board):
         for i in range(0, len(frontier), 2):
             the_moves.append(frontier[i])
 
-        UCT(rootstate=sokoban_board, itermax=100, simple_dead_pos=simple_dead_position)
-        #best_move = UCT(rootstate=sokoban_board, itermax=1000000, simple_dead_pos=simple_dead_position)
-        #print(best_move)
+        # UCT(rootstate=sokoban_board, itermax=1000, simple_dead_pos=simple_dead_position)
+        best_move = UCT(rootstate=sokoban_board, itermax=1000000, simple_dead_pos=simple_dead_position)
+        print(best_move)
         '''if best_move != []:
             print(best_move.move)
             if board.check_goal(best_move) or board.check_loss(best_move):
                 break'''
 
-        #sokoban_board = actions.move_agent(sokoban_board, best_move.move)
-        #board.draw_board(sokoban_board)
+        sokoban_board = actions.move_agent(sokoban_board, best_move.move)
+        board.draw_board(sokoban_board)
     print("Game over!")
 
 
