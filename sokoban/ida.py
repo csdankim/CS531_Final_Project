@@ -15,6 +15,7 @@ def ida_run(evaluation_board,method):
             return "GOAL"
         ida_threshold = search_result
 
+
 def ida_search_function(node,g,threshold,method):
     if method == "MD":
         f_value = g + heuristic.manhattan_distance_node(node)
@@ -28,8 +29,8 @@ def ida_search_function(node,g,threshold,method):
         return -1
     min = float("inf")
     frontier = board.gen_frontier(node)
-    for i in range(1,len(frontier),2):
-        tempvalue = ida_search_function(frontier[i],g+1,threshold,method)
+    for i in range(1, len(frontier), 2):
+        tempvalue = ida_search_function(frontier[i], g+1, threshold, method)
         if (tempvalue == -1):
             return -1
         if (tempvalue < min):
