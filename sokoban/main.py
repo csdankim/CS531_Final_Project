@@ -9,7 +9,7 @@ import sys
 parser = argparse.ArgumentParser(description='Solve Sobokan puzzles')
 parser.add_argument("-m", "--map",
                     dest="map_choice",
-                    default="boards/simple_board.txt",
+                    default="boards/test_board1.txt",
                     help="Choose a map file (default: trivial_board.txt)")
 
 

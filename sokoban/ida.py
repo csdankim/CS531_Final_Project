@@ -30,7 +30,7 @@ def ida_search_function(node,g,threshold,method):
     if (f_value >threshold):
         return f_value
     if (board.check_goal(node)):
-        print("Goal achieved:")
+        print("IDA* Goal achieved:")
         if method == "MD":
             print("Steps: {}" .format(md_step))
         else:

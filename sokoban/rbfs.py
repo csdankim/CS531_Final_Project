@@ -30,7 +30,7 @@ def rbfs_search_function(f_node, f_limit, depth, method):
     global rbfs_md_step
     global rbfs_hu_step
     if board.check_goal(f_node.n):
-        print("Goal Achieved:")
+        print("RBFS Goal Achieved:")
         if method == "MD":
             print("Steps: {}".format(rbfs_md_step))
         else:
